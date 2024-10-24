@@ -6,10 +6,10 @@ def connect_to_database():
     """Establish a connection to the zybooks database."""
     try:
         connection = mysql.connector.connect(
-            host='localhost',
-            user='your_username',     # Replace with your MySQL username
-            password='your_password', # Replace with your MySQL password
-            database='zybooks'
+        host='sql5.freemysqlhosting.net',
+        port=3306,
+        user='sql5740507',     # Replace with your MySQL username
+        password='AB4DeU48AR'  # Replace with your MySQL password
         )
         return connection
     except mysql.connector.Error as err:
@@ -61,6 +61,7 @@ def login_user(expected_role):
     """Handle the login process for a user."""
     connection = connect_to_database()
     cursor = connection.cursor()
+    cursor.execute("USE sql5740507;")
 
     while True:
         user_id = input("Enter User ID: ").strip()
@@ -101,120 +102,7 @@ def login_user(expected_role):
 
 def go_to_role_page(role, user_id):
     """Redirect the user to the appropriate page based on their role."""
-    if role.lower() == 'admin':
-        admin_page(user_id)
-    elif role.lower() == 'faculty':
-        faculty_page(user_id)
-    elif role.lower() == 'ta':
-        ta_page(user_id)
-    elif role.lower() == 'student':
-        student_page(user_id)
-    else:
-        print("Role not recognized. Please contact support.")
-
-def admin_page(user_id):
-    """Admin operations with input validation."""
-    while True:
-        print("\n--- Admin Page ---")
-        print("1. Add New User")
-        print("2. View All Users")
-        print("3. Logout")
-
-        choice = input("Enter your choice (1-3): ")
-        if choice == '1':
-            add_user()
-        elif choice == '2':
-            view_users()
-        elif choice == '3':
-            print("Logging out...")
-            break
-        else:
-            print("Invalid choice. Please enter a number between 1 and 3.")
-
-def add_user():
-    """Function to add a new user with input validation."""
-    connection = connect_to_database()
-    cursor = connection.cursor()
-
-    print("\n--- Add New User ---")
-
-    while True:
-        user_id = input("User ID (max 8 characters): ").strip()
-        if not validate_user_id(user_id):
-            continue
-        else:
-            break
-
-    first_name = input("First Name: ").strip()
-    last_name = input("Last Name: ").strip()
-    email = input("Email: ").strip()
-
-    while True:
-        password = getpass.getpass("Password: ").strip()
-        confirm_password = getpass.getpass("Confirm Password: ").strip()
-        if password != confirm_password:
-            print("Passwords do not match. Please try again.")
-        elif not validate_password(password):
-            continue
-        else:
-            break
-
-    role_options = ['Admin', 'Faculty', 'TA', 'Student']
-    while True:
-        print("Available Roles:", ', '.join(role_options))
-        role = input("Role: ").strip()
-        if role not in role_options:
-            print(f"Invalid role. Please choose from: {', '.join(role_options)}")
-        else:
-            break
-
-    try:
-        query = "INSERT INTO User (ID, FirstName, LastName, Email, Password, Role) VALUES (%s, %s, %s, %s, %s, %s);"
-        cursor.execute(query, (user_id, first_name, last_name, email, password, role))
-        connection.commit()
-        print("User added successfully.")
-    except mysql.connector.Error as err:
-        print(f"Error adding user: {err}")
-    finally:
-        cursor.close()
-        connection.close()
-
-def view_users():
-    """Function to view all users."""
-    connection = connect_to_database()
-    cursor = connection.cursor()
-
-    print("\n--- View Users ---")
-    try:
-        query = "SELECT ID, FirstName, LastName, Email, Role FROM User;"
-        cursor.execute(query)
-        users = cursor.fetchall()
-        if users:
-            for user in users:
-                ID, FirstName, LastName, Email, Role = user
-                print(f"ID: {ID}, Name: {FirstName} {LastName}, Email: {Email}, Role: {Role}")
-        else:
-            print("No users found.")
-    except mysql.connector.Error as err:
-        print(f"Error fetching users: {err}")
-    finally:
-        cursor.close()
-        connection.close()
-
-def faculty_page(user_id):
-    """Faculty operations with input validation."""
-    print("\n--- Faculty Page ---")
-    # Add faculty functionalities here with proper input validation
-
-def ta_page(user_id):
-    """TA operations with input validation."""
-    print("\n--- TA Page ---")
-    # Add TA functionalities here with proper input validation
-
-def student_page(user_id):
-    """Student operations with input validation."""
-    print("\n--- Student Page ---")
-    # Add student functionalities here with proper input validation
+    pass
 
 def main():
     while True:
