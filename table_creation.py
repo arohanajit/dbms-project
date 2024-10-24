@@ -1,3 +1,8 @@
+'''
+Database email: firoha5361@acroins.com
+Database password: Password1234
+Database link: https://www.freemysqlhosting.net/'''
+
 import mysql.connector
 
 def create_database_and_tables():
