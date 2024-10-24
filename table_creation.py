@@ -1,7 +1,10 @@
 '''
 Database email: firoha5361@acroins.com
 Database password: Password1234
-Database link: https://www.freemysqlhosting.net/'''
+Database link: https://www.freemysqlhosting.net/
+Password: AB4DeU48AR
+Port number: 3306
+'''
 
 import mysql.connector
 
@@ -9,17 +12,17 @@ def create_database_and_tables():
     # Connect to MySQL server
     connection = mysql.connector.connect(
         host='sql5.freemysqlhosting.net',
-        name='sql5740507',
+        port=3306,
         user='sql5740507',     # Replace with your MySQL username
-        password='your_password'  # Replace with your MySQL password
+        password='AB4DeU48AR'  # Replace with your MySQL password
     )
 
     cursor = connection.cursor()
 
     # List of SQL commands
     sql_commands = [
-        "CREATE DATABASE IF NOT EXISTS zybooks;",
-        "USE zybooks;",
+        "CREATE DATABASE IF NOT EXISTS sql5740507;",
+        "USE sql5740507;",
         """
         CREATE TABLE IF NOT EXISTS ETextbook (
             ID INT PRIMARY KEY,
